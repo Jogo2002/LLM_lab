@@ -1,0 +1,46 @@
+from groq import Groq
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+class Chat: 
+    client = Groq()
+    def __init__(self, message): 
+        self.messages = [
+                {
+                "role": "system",
+                "content": "Write the output in 1-2 sentences",
+            },
+            {
+                "role": "user",
+                "content": message,
+            }
+        ]
+    def send_message(self):
+        chat_completion = self.client.chat.completions.create(
+            self.messages,
+            model="llama-3.1-8b-instant",
+        ) 
+        return chat_completion.choices[0].messages.content
+
+        
+
+# client = Groq(
+#     api_key=os.environ.get("GROQ_API_KEY"),  # This is the default and can be omitted
+# )
+
+# chat_completion = client.chat.completions.create(
+#     messages=[
+#         {
+#             "role": "system",
+#             "content": "Write the output in 1-2 sentences",
+#         },
+#         {
+#             "role": "user",
+#             "content": "explain the importance of low latency LLMS",
+#         },
+#     ],
+#     model="llama-3.1-8b-instant",
+# )
+# print(chat_completion.choices[0].message.content)
