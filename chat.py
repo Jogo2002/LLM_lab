@@ -28,6 +28,8 @@ class Chat:
         >>> chat = Chat()
         >>> isinstance(chat, Chat)
         True
+        >>> chat.client is None or hasattr(chat.client, 'chat')
+        True
         """
         self.model = "llama-3.1-8b-instant"
         self.messages = [
@@ -62,6 +64,11 @@ class Chat:
         >>> chat = Chat(client=mock_client)
         >>> chat.send_message('hello', temperature=0.0)
         'Hello back!'
+        >>> import os
+        >>> os.environ["GROQ_API_KEY"] = ""
+        >>> chat = Chat(client=None)
+        >>> chat.send_message('hello')
+        'No Groq client configured.'
         """
         self.messages.append({"role": "user", "content": message})
 
@@ -83,6 +90,8 @@ class Chat:
         '{"result": 4}'
         >>> chat.calculate('invalid')
         '{"error": "Invalid expression"}'
+        >>> chat.calculate('')
+        '{"error": "Invalid expression"}'
         """
         return calculate_tool(expression)
 
@@ -94,6 +103,8 @@ class Chat:
         True
         >>> 'error' in chat.ls('nonexistent_dir')
         True
+        >>> chat.ls('/etc/passwd')  # Should not allow absolute paths
+        '{"error": "Absolute paths and directory traversal are not allowed."}'
         """
         return ls_tool(path)
 
@@ -108,6 +119,8 @@ class Chat:
         >>> chat.cat('chat_cat_test.txt')
         'hello'
         >>> test_path.unlink()
+        >>> chat.cat('chat_cat_test.txt')
+        "Error: [Errno 2] No such file or directory: 'chat_cat_test.txt'"
         """
         return cat_tool(filename)
 
@@ -125,13 +138,17 @@ class Chat:
         True
         >>> Path('chat_grep_1.txt').unlink()
         >>> Path('chat_grep_2.txt').unlink()
+        >>> chat.grep('notfound', 'chat_grep_*.txt')
+        ''
         """
         return grep_tool(regex, filepath)
 
     def run_conversation(self, user_prompt):
         """Run a conversation through the configured Groq client.
+        Doctests for this method use mocking to simulate Groq client responses, without the need for an actual API key.
 
-        >>> from unittest.mock import Mock
+        >>> from unittest.mock import Mock 
+        >>> mock_client = Mock()
         >>> mock_client = Mock()
         >>> mock_response = Mock()
         >>> mock_message = Mock()
@@ -144,6 +161,27 @@ class Chat:
         >>> chat = Chat(client=mock_client)
         >>> chat.run_conversation('hello')
         'I can help with that.'
+        >>> # Test tool calling path
+        >>> import json
+        >>> mock_tool_call = Mock()
+        >>> mock_tool_call.id = 'call_123'
+        >>> mock_tool_call.function.name = 'calculate'
+        >>> mock_tool_call.function.arguments = '{"expression": "2+2"}'
+        >>> mock_message_with_tools = Mock()
+        >>> mock_message_with_tools.content = ''
+        >>> mock_message_with_tools.tool_calls = [mock_tool_call]
+        >>> mock_response_with_tools = Mock()
+        >>> mock_response_with_tools.choices = [Mock()]
+        >>> mock_response_with_tools.choices[0].message = mock_message_with_tools
+        >>> mock_second_response = Mock()
+        >>> mock_second_message = Mock()
+        >>> mock_second_message.content = 'The result is 4'
+        >>> mock_second_choice = Mock()
+        >>> mock_second_choice.message = mock_second_message
+        >>> mock_second_response.choices = [mock_second_choice]
+        >>> mock_client.chat.completions.create.side_effect = [mock_response_with_tools, mock_second_response]
+        >>> chat.run_conversation('calculate 2+2')
+        'The result is 4'
         """
         if self.client is None:
             return "Groq client is required to run conversations."
@@ -285,7 +323,74 @@ class Chat:
 
 
 def main():
-    """Start the chat command line interface."""
+    """Start the chat command line interface.
+
+    >>> import builtins
+    >>> import io
+    >>> import contextlib
+    >>> import os
+    >>> import sys
+
+    >>> original_input = builtins.input
+    >>> original_getenv = os.getenv
+    >>> original_chat_class = Chat
+
+    >>> class FakeChat:
+    ...     def calculate(self, expression):
+    ...         return f"CALC:{expression}"
+    ...     def ls(self, path=None):
+    ...         return f"LS:{path}"
+    ...     def grep(self, regex, filepath):
+    ...         return f"GREP:{regex}:{filepath}"
+    ...     def cat(self, filename):
+    ...         return f"CAT:{filename}"
+    ...     def run_conversation(self, user_prompt):
+    ...         return f"CHAT:{user_prompt}"
+
+    >>> builtins.input = lambda prompt: next(inputs)
+    >>> os.getenv = lambda key: None
+    >>> sys.modules[__name__].Chat = FakeChat
+
+    >>> inputs = iter([
+    ...     "/",
+    ...     "/calculate",
+    ...     "/calculate 2+2",
+    ...     "/ls",
+    ...     "/ls dir",
+    ...     "/grep",
+    ...     "/grep a file.txt",
+    ...     "/cat",
+    ...     "/cat file.txt",
+    ...     "/unknown cmd",
+    ...     "hello",
+    ... ])
+
+    >>> output = io.StringIO()
+    >>> with contextlib.redirect_stdout(output):
+    ...     try:
+    ...         main()
+    ...     except StopIteration:
+    ...         print()
+
+    >>> print(output.getvalue(), end="")
+    Groq client is not configured. Only local tools are available.
+    Invalid command
+    Usage: /calculate <expression>
+    CALC:2+2
+    LS:None
+    LS:dir
+    Usage: /grep <regex> <filepath>
+    GREP:a:file.txt
+    Usage: /cat <filename>
+    CAT:file.txt
+    Unknown command: unknown
+    CHAT:hello
+    <BLANKLINE>
+
+    >>> builtins.input = original_input
+    >>> os.getenv = original_getenv
+    >>> sys.modules[__name__].Chat = original_chat_class
+    """
     if os.getenv("GROQ_API_KEY") is None:
         print("Groq client is not configured. Only local tools are available.")
 
