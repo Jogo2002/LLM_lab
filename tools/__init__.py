@@ -7,3 +7,4 @@ from .calculate import calculate
 from .cat import cat
 from .grep import grep
 from .ls import ls
+from .compact import compact

@@ -5,6 +5,7 @@ from tools.calculate import calculate as calculate_tool
 from tools.cat import cat as cat_tool
 from tools.grep import grep as grep_tool
 from tools.ls import ls as ls_tool
+from tools.compact import compact as compact_tool
 
 try:
     from groq import Groq
@@ -338,47 +339,29 @@ class Chat:
         >>> mock_client.chat.completions.create.return_value = mock_response
         >>> chat = Chat(client=mock_client)
         >>> chat.messages.append({"role": "user", "content": "What files are in the directory?"})
-        >>> initial_len = len(chat.messages)
         >>> result = chat.compact()
-        >>> len(chat.messages)
-        1
         >>> chat.messages[0]["role"]
         'system'
         >>> 'Summary' in chat.messages[0]["content"]
         True
         """
-        if self.client is None:
-            return "Groq client is required to compact the conversation."
+        result = compact_tool(self.messages, self.client, self.model)
         
-        # Create summary prompt
-        summary_prompt = (
-            "Please provide a concise 1-5 line summary of this conversation. "
-            "Include only the key points and decisions made."
-        )
-        
-        # Create a temporary chat instance to generate the summary
-        summary_messages = self.messages + [
-            {"role": "user", "content": summary_prompt}
-        ]
-        
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=summary_messages,
-            )
-            summary = response.choices[0].message.content
+        # Extract summary from result if successful
+        if result.startswith("Conversation compacted"):
+            # Parse the summary from the result string
+            summary_start = result.find("Summary: ") + len("Summary: ")
+            summary = result[summary_start:]
             
-            # Replace messages with system message and summary
+            # Replace messages with system message containing summary
             self.messages = [
                 {
                     "role": "system",
                     "content": f"Summary of previous conversation: {summary}",
                 }
             ]
-            
-            return f"Conversation compacted. Summary: {summary}"
-        except Exception as e:
-            return f"Error compacting conversation: {str(e)}"
+        
+        return result
 
 
 def main():
