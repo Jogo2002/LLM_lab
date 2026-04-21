@@ -1,5 +1,5 @@
 
-# docsum
+# Interactive LLM Chat Aent
 
 A command-line tool for chat-based file utilities, including calculation, file listing, file reading, and pattern search, with optional LLM integration. Designed for extensibility and easy automation.
 
