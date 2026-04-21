@@ -22,7 +22,7 @@ This example shows how to use the chat tool to check if a project uses regular e
 ```sh
 $ cd markdown_compiler
 $ chat
-chat> does this project use regular expressions?
+chat>> does this project use regular expressions?
 No. I grepped all of the python files for any uses of the `re` library and did not find any.
 ```
 
@@ -33,9 +33,9 @@ This example demonstrates how the chat tool can summarize a project's purpose an
 ```sh
 $ cd ebay_scraper
 $ chat
-chat> tell me about this project
+chat>> tell me about this project
 The README says this project is designed to scrape product information off of ebay.
-chat> is this legal?
+chat>> is this legal?
 Yes. It is generally legal to scrape webpages, but ebay offers an API that would be more efficient to use.
 ```
 
@@ -47,9 +47,9 @@ This example shows how the chat tool can quickly analyze and answer questions ab
 ```sh
 $ cd jogo2002.github.io
 $ chat
-chat> what programming languages does this project use?
+chat>> what programming languages does this project use?
 This project uses HTML, CSS, and JavaScript. The index.html file imports a stylesheet.css and includes JavaScript functionality.
-chat> are there any broken links in the markdown?
+chat>> are there any broken links in the markdown?
 I found 3 markdown files. None of them contain broken http links.
 ```
 
