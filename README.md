@@ -10,6 +10,9 @@ A command-line tool for chat-based file utilities, including calculation, file l
 [![codecov](https://codecov.io/gh/Jogo2002/LLM-Agent/branch/main/graph/badge.svg)](https://codecov.io/gh/Jogo2002/LLM-Agent)
 
 ![Animated terminal demo](demo.gif)
+<p align="center"><img src="demo.gif?raw=true"/></p>
+
+
 
 ---
 
