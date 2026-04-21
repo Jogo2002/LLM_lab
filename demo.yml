@@ -1,0 +1,381 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /Users/jgoldhaber/CSCI040/docsum
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 116
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 17
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 226
+    content: "\r\nThe default interactive shell is now zsh.\r\nTo update your account to use zsh, please run `chsh -s /bin/zsh`.\r\nFor more details, please visit https://support.apple.com/kb/HT208050.\r\n\e[?1034hJs-MacBook-Air-6:docsum jgoldhaber$ "
+  - delay: 2230
+    content: p
+  - delay: 230
+    content: 'y'
+  - delay: 150
+    content: t
+  - delay: 49
+    content: h
+  - delay: 134
+    content: o
+  - delay: 50
+    content: 'n'
+  - delay: 351
+    content: ' '
+  - delay: 515
+    content: c
+  - delay: 50
+    content: h
+  - delay: 100
+    content: a
+  - delay: 117
+    content: t
+  - delay: 165
+    content: .
+  - delay: 235
+    content: p
+  - delay: 83
+    content: 'y'
+  - delay: 351
+    content: "\r\n"
+  - delay: 754
+    content: 'chat>> '
+  - delay: 1262
+    content: h
+  - delay: 20
+    content: i
+  - delay: 246
+    content: ','
+  - delay: 83
+    content: ' '
+  - delay: 82
+    content: h
+  - delay: 101
+    content: o
+  - delay: 351
+    content: w
+  - delay: 66
+    content: ' '
+  - delay: 100
+    content: a
+  - delay: 70
+    content: r
+  - delay: 60
+    content: e
+  - delay: 68
+    content: ' '
+  - delay: 76
+    content: 'y'
+  - delay: 132
+    content: o
+  - delay: 59
+    content: u
+  - delay: 267
+    content: '?'
+  - delay: 50
+    content: ' '
+  - delay: 201
+    content: "\r\n"
+  - delay: 699
+    content: "I'm doing well, thank you for asking. I'm a helpful assistant, here to assist you with any questions or tasks you may have. How can I help you today?\r\nchat>> "
+  - delay: 1065
+    content: w
+  - delay: 83
+    content: h
+  - delay: 50
+    content: a
+  - delay: 118
+    content: t
+  - delay: 52
+    content: ' '
+  - delay: 450
+    content: m
+  - delay: 49
+    content: o
+  - delay: 65
+    content: d
+  - delay: 185
+    content: e
+  - delay: 49
+    content: l
+  - delay: 135
+    content: ' '
+  - delay: 167
+    content: a
+  - delay: 65
+    content: r
+  - delay: 51
+    content: e
+  - delay: 66
+    content: ' '
+  - delay: 150
+    content: 'y'
+  - delay: 134
+    content: o
+  - delay: 86
+    content: u
+  - delay: 165
+    content: ' '
+  - delay: 200
+    content: r
+  - delay: 120
+    content: u
+  - delay: 195
+    content: 'n'
+  - delay: 335
+    content: 'n'
+  - delay: 216
+    content: i
+  - delay: 41
+    content: 'n'
+  - delay: 40
+    content: g
+  - delay: 50
+    content: ' '
+  - delay: 135
+    content: o
+  - delay: 32
+    content: 'n'
+  - delay: 249
+    content: '?'
+  - delay: 60
+    content: ' '
+  - delay: 176
+    content: "\r\n"
+  - delay: 339
+    content: "I'm running on a cloud-based infrastructure that utilizes a combination of natural language processing (NLP) and machine learning algorithms to provide information and answer questions to the best of my knowledge.\r\nchat>> "
+  - delay: 4439
+    content: c
+  - delay: 87
+    content: o
+  - delay: 160
+    content: o
+  - delay: 239
+    content: l
+  - delay: 203
+    content: .
+  - delay: 117
+    content: ' '
+  - delay: 416
+    content: w
+  - delay: 22
+    content: h
+  - delay: 43
+    content: a
+  - delay: 968
+    content: "\b \b"
+  - delay: 133
+    content: "\b \b"
+  - delay: 150
+    content: "\b \b"
+  - delay: 699
+    content: /
+  - delay: 382
+    content: l
+  - delay: 133
+    content: s
+  - delay: 1490
+    content: ' '
+  - delay: 329
+    content: t
+  - delay: 66
+    content: o
+  - delay: 168
+    content: o
+  - delay: 183
+    content: l
+  - delay: 83
+    content: s
+  - delay: 1601
+    content: "\r\n"
+  - delay: 760
+    content: "You are trying to list files using the `/ls` tool from a specific path \"/tools\". I'm unable to do this as requested due to security reasons.\r\n\r\nAlternatively, I can show you what tools I have, which you can use in your command to achieve your goal:\r\n\r\n1. calculator\r\n2. list_files\r\n3. search\r\n4. info\r\n5. convert\r\nchat>> "
+  - delay: 9309
+    content: l
+  - delay: 78
+    content: s
+  - delay: 119
+    content: ' '
+  - delay: 434
+    content: t
+  - delay: 65
+    content: o
+  - delay: 133
+    content: o
+  - delay: 184
+    content: l
+  - delay: 66
+    content: s
+  - delay: 201
+    content: "\r\n"
+  - delay: 588
+    content: "Here's a limited list of tools available to you:\r\n\r\n1. Calculator\r\n2. File explorer \r\n\r\nThese two tools will be able to be used to answer any given command that would use the tools you would get from an actual directory like /usr/bin.\r\nchat>> "
+  - delay: 2679
+    content: /
+  - delay: 320
+    content: l
+  - delay: 95
+    content: s
+  - delay: 76
+    content: ' '
+  - delay: 260
+    content: t
+  - delay: 68
+    content: o
+  - delay: 147
+    content: o
+  - delay: 164
+    content: l
+  - delay: 86
+    content: s
+  - delay: 434
+    content: "\r\n{\"files\": [\"tools/__init__.py\", \"tools/__pycache__\", \"tools/calculate.py\", \"tools/cat.py\", \"tools/compact.py\", \"tools/grep.py\", \"tools/ls.py\"]}\r\nchat>> "
+  - delay: 1414
+    content: t
+  - delay: 50
+    content: h
+  - delay: 115
+    content: a
+  - delay: 84
+    content: 'n'
+  - delay: 67
+    content: k
+  - delay: 83
+    content: s
+  - delay: 335
+    content: '!'
+  - delay: 83
+    content: ' '
+  - delay: 1334
+    content: t
+  - delay: 86
+    content: o
+  - delay: 181
+    content: o
+  - delay: 65
+    content: k
+  - delay: 351
+    content: "\b \b"
+  - delay: 149
+    content: "\b \b"
+  - delay: 151
+    content: "\b \b"
+  - delay: 150
+    content: "\b \b"
+  - delay: 150
+    content: "\b \b"
+  - delay: 1508
+    content: "\r\n"
+  - delay: 423
+    content: "You're welcome. Is there anything else I can help you with?\r\nchat>> "
+  - delay: 2012
+    content: "^D\b\bTraceback (most recent call last):\r\n  File \"/Users/jgoldhaber/CSCI040/docsum/chat.py\", line 494, in <module>\r\n    main()\r\n  File \"/Users/jgoldhaber/CSCI040/docsum/chat.py\", line 455, in main\r\n    user_input = input(\"chat>> \")\r\n                 ^^^^^^^^^^^^^^^^\r\nEOFError\r\n"
+  - delay: 41
+    content: 'Js-MacBook-Air-6:docsum jgoldhaber$ '
+  - delay: 595
+    content: "logout\r\n"
