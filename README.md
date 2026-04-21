@@ -3,11 +3,11 @@
 
 A command-line tool for chat-based file utilities, including calculation, file listing, file reading, and pattern search, with optional LLM integration. Designed for extensibility and easy automation.
 
-[![Doctests](https://github.com/yourusername/docsum/actions/workflows/doctest.yml/badge.svg)](https://github.com/yourusername/docsum/actions/workflows/doctest.yml)
-[![Lint](https://github.com/yourusername/docsum/actions/workflows/lint.yml/badge.svg)](https://github.com/yourusername/docsum/actions/workflows/lint.yml)
-[![Integration Tests](https://github.com/yourusername/docsum/actions/workflows/integration.yml/badge.svg)](https://github.com/yourusername/docsum/actions/workflows/integration.yml)
-[![PyPI version](https://img.shields.io/pypi/v/docsum.svg)](https://pypi.org/project/docsum/)
-[![codecov](https://codecov.io/gh/yourusername/docsum/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/docsum)
+[![Doctests](https://github.com/Jogo2002/LLM-Agent/actions/workflows/doctest.yml/badge.svg)](https://github.com/Jogo2002/LLM-Agent/actions/workflows/doctest.yml)
+[![Lint](https://github.com/Jogo2002/LLM-Agent/actions/workflows/lint.yml/badge.svg)](https://github.com/Jogo2002/LLM-Agent/actions/workflows/lint.yml)
+[![Integration Tests](https://github.com/Jogo2002/LLM-Agent/actions/workflows/integration.yml/badge.svg)](https://github.com/Jogo2002/LLM-Agent/actions/workflows/integration.yml)
+[![PyPI version](https://img.shields.io/pypi/v/llm-agent.svg)](https://pypi.org/project/llm-agent/)
+[![codecov](https://codecov.io/gh/Jogo2002/LLM-Agent/branch/main/graph/badge.svg)](https://codecov.io/gh/Jogo2002/LLM-Agent)
 
 ![Animated terminal demo](demo.gif)
 
