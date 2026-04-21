@@ -1,0 +1,26 @@
+name: Integration Tests
+
+on: [push, pull_request]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run coverage and doctests
+      run: |
+        pip install coverage
+        python -m coverage run -m doctest chat.py tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/compact.py
+        python -m coverage report -m
