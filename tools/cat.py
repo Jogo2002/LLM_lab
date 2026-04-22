@@ -7,6 +7,10 @@ This module reads UTF-8 text from a file and returns its contents.
 def cat(filename):
     """Read the contents of a UTF-8 text file.
 
+    # these tests aren't good;
+    # you shouldn't be creating files/folders in the test cases
+    # just actually use files that exist in the repo;
+    # it's okay to create files for testing
     >>> from pathlib import Path
     >>> test_path = Path('tools_cat_test.txt')
     >>> _ = test_path.write_text('hello', encoding='utf-8')

@@ -2,6 +2,7 @@
 # Interactive LLM Chat Aent
 
 A command-line tool for chat-based file utilities, including calculation, file listing, file reading, and pattern search, with optional LLM integration. Designed for extensibility and easy automation.
+<!-- the above reads like AIslop and will turn off anyone looking at the repo -->
 
 [![Doctests](https://github.com/Jogo2002/LLM-Agent/actions/workflows/doctest.yml/badge.svg)](https://github.com/Jogo2002/LLM-Agent/actions/workflows/doctest.yml)
 [![Lint](https://github.com/Jogo2002/LLM-Agent/actions/workflows/lint.yml/badge.svg)](https://github.com/Jogo2002/LLM-Agent/actions/workflows/lint.yml)
@@ -10,10 +11,6 @@ A command-line tool for chat-based file utilities, including calculation, file l
 [![codecov](https://codecov.io/gh/Jogo2002/LLM-Agent/branch/main/graph/badge.svg)](https://codecov.io/gh/Jogo2002/LLM-Agent)
 
 <p align="center"><img src="demo.gif?raw=true"/></p>
-
-
-
----
 
 ## Usage Examples
 
@@ -57,19 +54,5 @@ I found 3 markdown files. None of them contain broken http links.
 
 Each example above is useful, as shows how the chat tool can answer real-world questions about code and project usage, making it valuable for both technical and non-technical users.
 
----
-
-## Project Structure
-- Command-line chat interface
-- Tools 
-    - Calculate math expressions
-    - List files in directories
-    - Read file contents
-    - Search files with regex
-    - Summarize information
-
-## Testing & Linting
-- **Doctests**: Run `python -m doctest chat.py tools/cat.py tools/grep.py tools/ls.py`
-- **Lint**: Run `flake8 .`
-- **Integration Tests**: Run `python -m unittest discover`
-
+<!-- the stuff I deleted here all reads like AI slop;
+you shouldn't put things in READMEs that will be "obvious" to a technical person -->

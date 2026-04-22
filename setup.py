@@ -1,3 +1,7 @@
+# setup.py is an older standard than pyproject.yaml;
+# it is not wrong, but it is fishy;
+# it is more "dangerous" as it allows arbitrary execution of code
+# and many systems will not allow projects that use setup.py for this reason
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
