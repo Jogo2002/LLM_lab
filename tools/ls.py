@@ -18,9 +18,10 @@ def ls(path=None):
     >>> result = ls('nonexistent_dir')
     >>> 'error' in result
     True
-    >>> result = ls('.')
-    >>> 'files' in result
-    True
+    >>> ls('.')
+
+    # you should actually list out the files here;
+    # ls is deterministic and so there is not problem
     >>> ls('/')  # doctest: +ELLIPSIS
     '{"error": "Absolute paths and directory traversal are not allowed."}'
     >>> ls('../')  # doctest: +ELLIPSIS

@@ -4,6 +4,8 @@ This module summarizes chat conversation history to reduce token usage.
 """
 
 
+# it's possible to get everything inside this function with the current signature;
+# but you might find it easier to pass just the Chat instance and not all of these attributes separately
 def compact(messages, client, model):
     """Summarize messages and return a summary string.
 

@@ -1,16 +1,23 @@
 import json
 import os
 from dotenv import load_dotenv
+
+# this is a gross abuse of the as keyword
+# that would get you laughed out of a FAANG company;
+# why is it bad?
+# when you reference "calculate_tool",
+# it is much harder to understand where this function comes from;
+# this will cause both human and AIs extending your code
+# to get confused and bug out
 from tools.calculate import calculate as calculate_tool
 from tools.cat import cat as cat_tool
 from tools.grep import grep as grep_tool
 from tools.ls import ls as ls_tool
 from tools.compact import compact as compact_tool
 
-try:
-    from groq import Groq
-except ImportError:
-    Groq = None
+from groq import Groq
+# you shouldn't be trying to check if groq is installed;
+# this is an anti-pattern; just let python crash
 
 
 load_dotenv()
@@ -27,29 +34,23 @@ class Chat:
         """Initialize the Chat object with optional Groq client support.
 
         >>> chat = Chat()
-        >>> isinstance(chat, Chat)
-        True
-        >>> chat.client is None or hasattr(chat.client, 'chat')
-        True
+        
+        # neither of these test cases actually tested anything meaningful
         """
         self.model = "llama-3.1-8b-instant"
         self.messages = [
             {
                 "role": "system",
-                "content": """You are a helpful assistant with access to tools. When answering questions:
-- Use the calculate tool for mathematical expressions and arithmetic
-- Use the ls tool to list directory contents
-- Use the cat tool to read and display complete file contents
-- Use the grep tool to search for patterns within files
-Be concise and direct in your responses.""",
+                "content": """You are a helpful assistant with access to tools. Be concise and direct in your responses.""",
+                # the details about when to use which tools should be included directly in the tool description;
+                # this makes adding new tools (or modifying existing tools) easier
+                # because you only have to modify things in one place
             }
         ]
 
         if client is not None:
             self.client = client
         elif api_key is not None:
-            if Groq is None:
-                raise ImportError("Groq is not installed.")
             self.client = Groq(api_key=api_key)
         else:
             env_key = os.getenv("GROQ_API_KEY")
@@ -75,6 +76,9 @@ Be concise and direct in your responses.""",
         >>> chat = Chat(client=None)
         >>> chat.send_message('hello')
         'No Groq client configured.'
+
+        # these are some pretty ugly tests here that don't actually demonstrate
+        # that the llm functionality works
         """
         self.messages.append({"role": "user", "content": message})
 
@@ -88,71 +92,16 @@ Be concise and direct in your responses.""",
         )
         return completion.choices[0].message.content
 
-    def calculate(self, expression):
-        """Evaluate a mathematical expression using the calculation tool.
-
-        >>> chat = Chat()
-        >>> chat.calculate('2 + 2')
-        '{"result": 4}'
-        >>> chat.calculate('invalid')
-        '{"error": "Invalid expression"}'
-        >>> chat.calculate('')
-        '{"error": "Invalid expression"}'
-        """
-        return calculate_tool(expression)
-
-    def ls(self, path=None):
-        """List files in the current directory or relative directory.
-
-        >>> chat = Chat()
-        >>> 'files' in chat.ls(None)
-        True
-        >>> 'error' in chat.ls('nonexistent_dir')
-        True
-        >>> chat.ls('/etc/passwd')  # Should not allow absolute paths
-        '{"error": "Absolute paths and directory traversal are not allowed."}'
-        """
-        return ls_tool(path)
-
-    def cat(self, filename):
-        """Read the contents of a UTF-8 text file.
-
-        >>> from pathlib import Path
-        >>> test_path = Path('chat_cat_test.txt')
-        >>> test_path.write_text('hello', encoding='utf-8')
-        5
-        >>> chat = Chat()
-        >>> chat.cat('chat_cat_test.txt')
-        'hello'
-        >>> test_path.unlink()
-        >>> chat.cat('chat_cat_test.txt')
-        "Error: [Errno 2] No such file or directory: 'chat_cat_test.txt'"
-        """
-        return cat_tool(filename)
-
-    def grep(self, regex, filepath):
-        """Search files matching a glob pattern for a regex.
-
-        >>> from pathlib import Path
-        >>> Path('chat_grep_1.txt').write_text('apple\\nbanana\\n', encoding='utf-8')
-        13
-        >>> Path('chat_grep_2.txt').write_text('apple pie\\ncherry\\n', encoding='utf-8')
-        17
-        >>> chat = Chat()
-        >>> result = chat.grep('apple', 'chat_grep_*.txt')
-        >>> 'apple' in result
-        True
-        >>> Path('chat_grep_1.txt').unlink()
-        >>> Path('chat_grep_2.txt').unlink()
-        >>> chat.grep('notfound', 'chat_grep_*.txt')
-        ''
-        """
-        return grep_tool(regex, filepath)
+    # you shouldn't be defining new methods in this class for each tool you use;
+    # again, this makes defining new tools much harder in the future
+    # and doesn't give you any benefit;
+    # I modified the place where you invoke these functions to just use the tool directly
 
     def run_conversation(self, user_prompt):
         """Run a conversation through the configured Groq client.
         Doctests for this method use mocking to simulate Groq client responses, without the need for an actual API key.
 
+        # again, super gross tests that don't actually test your functionality
         >>> from unittest.mock import Mock 
         >>> mock_client = Mock()
         >>> mock_client = Mock()
@@ -203,6 +152,10 @@ Be concise and direct in your responses.""",
             {"role": "user", "content": user_prompt},
         ]
 
+        # these tool schemas should not be here;
+        # they should be in the same file as the tool python code;
+        # again: keep everything about a tool in just one place
+        # so that it is easy to add/modify tools in the future
         tools = [
             {
                 "type": "function",
@@ -283,7 +236,10 @@ Be concise and direct in your responses.""",
             messages=messages,
             tools=tools,
             tool_choice="auto",
-            temperature=0.0,
+            temperature=temperature, # we don't want magic values; this should be a parameter to the function;
+            # also, temp of 0 will result in worse realworld performance
+            # and should only be used in test cases;
+            # this is one possible reason (among many) for your ls tool not getting invoked
         )
 
         response_message = response.choices[0].message
@@ -291,10 +247,10 @@ Be concise and direct in your responses.""",
 
         if tool_calls:
             available_functions = {
-                "calculate": self.calculate,
-                "ls": self.ls,
-                "grep": self.grep,
-                "cat": self.cat,
+                "calculate": calculate_tool,
+                "ls": ls_tool,
+                "grep": grep_tool,
+                "cat": cat_tool,
             }
 
             messages.append(response_message)
@@ -328,47 +284,7 @@ Be concise and direct in your responses.""",
 
         return response_message.content
 
-    def compact(self):
-        """Summarize the current chat session and replace messages with a single summary entry.
-        
-        This reduces token count by condensing the conversation history into 1-5 lines,
-        which helps reduce API costs, improve response speed, and prevent hitting token limits.
-
-        >>> from unittest.mock import Mock
-        >>> mock_client = Mock()
-        >>> mock_response = Mock()
-        >>> mock_message = Mock()
-        >>> mock_message.content = 'Summary: User asked about files and tools.'
-        >>> mock_choice = Mock()
-        >>> mock_choice.message = mock_message
-        >>> mock_response.choices = [mock_choice]
-        >>> mock_client.chat.completions.create.return_value = mock_response
-        >>> chat = Chat(client=mock_client)
-        >>> chat.messages.append({"role": "user", "content": "What files are in the directory?"})
-        >>> result = chat.compact()
-        >>> chat.messages[0]["role"]
-        'system'
-        >>> 'Summary' in chat.messages[0]["content"]
-        True
-        """
-        result = compact_tool(self.messages, self.client, self.model)
-        
-        # Extract summary from result if successful
-        if result.startswith("Conversation compacted"):
-            # Parse the summary from the result string
-            summary_start = result.find("Summary: ") + len("Summary: ")
-            summary = result[summary_start:]
-            
-            # Replace messages with system message containing summary
-            self.messages = [
-                {
-                    "role": "system",
-                    "content": f"Summary of previous conversation: {summary}",
-                }
-            ]
-        
-        return result
-
+    # evrything in your compact method should be in the tools/compact.py folder;
 
 def main():
     """Start the chat command line interface.
@@ -424,6 +340,8 @@ def main():
     ...     except StopIteration:
     ...         print()
 
+    # this test does actually test stuff,
+    # but it's unreadable to a human because the inputs are not next to the outputs
     >>> print(output.getvalue(), end="")
     Groq client is not configured. Only local tools are available.
     Invalid command

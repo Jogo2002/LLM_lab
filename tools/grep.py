@@ -12,6 +12,8 @@ def grep(regex, filepath):
 
     >>> import os
 
+    # like in cat, you should just create these files in the repo
+    # not in the test cases
     >>> _ = open('tools_grep_1.txt', 'w', encoding='utf-8').write('apple\\nbanana\\nAPPLE\\n')
     >>> _ = open('tools_grep_2.txt', 'w', encoding='utf-8').write('cherry\\napple pie\\n')
 
