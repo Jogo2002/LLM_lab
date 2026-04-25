@@ -105,11 +105,11 @@ Be concise and direct in your responses.""",
         """List files in the current directory or relative directory.
 
         >>> chat = Chat()
-        >>> 'files' in chat.ls(None)
-        True
-        >>> 'error' in chat.ls('nonexistent_dir')
-        True
-        >>> chat.ls('/etc/passwd')  # Should not allow absolute paths
+        >>> chat.ls(None)
+        '{"files": ["README.md", "__pycache__", "chat.py", "demo.gif", "demo.yml", "htmlcov", "package-lock.json", "package.json", "requirements.txt", "scratch.txt", "setup.py", "test_files", "test_projects", "testtext.txt", "tools", "venv"]}'
+        >>> chat.ls('nonexistent_dir')
+        '{"error": "Directory does not exist."}'
+        >>> chat.ls('/etc/passwd')
         '{"error": "Absolute paths and directory traversal are not allowed."}'
         """
         return ls_tool(path)
@@ -131,8 +131,8 @@ Be concise and direct in your responses.""",
 
         >>> chat = Chat()
         >>> result = chat.grep('apple', 'test_files/grep_*.txt')
-        >>> 'apple' in result
-        True
+        >>> result
+        'apple\\napple pie'
         >>> chat.grep('notfound', 'test_files/grep_*.txt')
         ''
         """
@@ -143,8 +143,8 @@ Be concise and direct in your responses.""",
 
         >>> chat = Chat()
         >>> result = chat.doctests('test_files/sample_add.py')
-        >>> 'ok' in result or 'passed' in result
-        True
+        >>> result.split('\\n')[-2]
+        'Test passed.'
         >>> chat.doctests('/etc/passwd')
         'Error: Absolute paths and directory traversal are not allowed.'
         """
@@ -156,8 +156,8 @@ Be concise and direct in your responses.""",
         >>> import os
         >>> chat = Chat()
         >>> result = chat.write_file('_chat_wf_test.txt', 'hello', 'test write')
-        >>> 'written' in result
-        True
+        >>> result
+        'Files written and committed: _chat_wf_test.txt'
         >>> os.remove('_chat_wf_test.txt')
         """
         return write_file_tool(path, contents, commit_message)
@@ -168,8 +168,8 @@ Be concise and direct in your responses.""",
         >>> import os
         >>> chat = Chat()
         >>> result = chat.write_files([{'path': '_chat_wfs_test.txt', 'contents': 'hi'}], 'test multi')
-        >>> 'written' in result
-        True
+        >>> result
+        'Files written and committed: _chat_wfs_test.txt'
         >>> os.remove('_chat_wfs_test.txt')
         """
         return write_files_tool(files, commit_message)
@@ -181,8 +181,8 @@ Be concise and direct in your responses.""",
         >>> chat = Chat()
         >>> _ = Path('_chat_rm_test.txt').write_text('x', encoding='utf-8')
         >>> result = chat.rm('_chat_rm_test.txt')
-        >>> 'removed' in result
-        True
+        >>> result
+        'Files removed and committed: _chat_rm_test.txt'
         """
         return rm_tool(path)
 
@@ -441,7 +441,7 @@ Be concise and direct in your responses.""",
         >>> result = chat.compact()
         >>> chat.messages[0]["role"]
         'system'
-        >>> 'Summary' in chat.messages[0]["content"]
+        >>> chat.messages[0]["content"].startswith('Summary of previous conversation:')
         True
         """
         result = compact_tool(self.messages, self.client, self.model)

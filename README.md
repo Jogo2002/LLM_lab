@@ -11,8 +11,6 @@ A command-line tool for chat-based file utilities, including calculation, file l
 
 ![Animated terminal demo](demo.gif)
 
----
-
 ## Usage Examples
 
 ### markdown_compiler
@@ -53,21 +51,4 @@ chat>> are there any broken links in the markdown?
 I found 3 markdown files. None of them contain broken http links.
 ```
 
-Each example above is useful, as shows how the chat tool can answer real-world questions about code and project usage, making it valuable for both technical and non-technical users.
-
----
-
-## Project Structure
-- Command-line chat interface
-- Tools 
-    - Calculate math expressions
-    - List files in directories
-    - Read file contents
-    - Search files with regex
-    - Summarize information
-
-## Testing & Linting
-- **Doctests**: Run `python -m doctest chat.py tools/cat.py tools/grep.py tools/ls.py`
-- **Lint**: Run `flake8 .`
-- **Integration Tests**: Run `python -m unittest discover`
-
+Each example  shows how the chat tool can answer real-world questions about code and project usage, making it valuable for both technical and non-technical users.

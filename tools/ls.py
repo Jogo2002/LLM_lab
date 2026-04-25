@@ -12,18 +12,15 @@ from pathlib import PurePath
 def ls(path=None):
     """List files in the current directory or in the given relative directory.
 
-    >>> result = ls()
-    >>> 'files' in result
-    True
-    >>> result = ls('nonexistent_dir')
-    >>> 'error' in result
-    True
-    >>> result = ls('.')
-    >>> 'files' in result
-    True
-    >>> ls('/')  # doctest: +ELLIPSIS
+    >>> ls()
+    '{"files": ["README.md", "__pycache__", "chat.py", "demo.gif", "demo.yml", "htmlcov", "package-lock.json", "package.json", "requirements.txt", "scratch.txt", "setup.py", "test_files", "test_projects", "testtext.txt", "tools", "venv"]}'
+    >>> ls('nonexistent_dir')
+    '{"error": "Directory does not exist."}'
+    >>> ls('.')
+    '{"files": ["./README.md", "./__pycache__", "./chat.py", "./demo.gif", "./demo.yml", "./htmlcov", "./package-lock.json", "./package.json", "./requirements.txt", "./scratch.txt", "./setup.py", "./test_files", "./test_projects", "./testtext.txt", "./tools", "./venv"]}'
+    >>> ls('/')
     '{"error": "Absolute paths and directory traversal are not allowed."}'
-    >>> ls('../')  # doctest: +ELLIPSIS
+    >>> ls('../')
     '{"error": "Absolute paths and directory traversal are not allowed."}'
     """
     try:
