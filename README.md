@@ -52,3 +52,24 @@ I found 3 markdown files. None of them contain broken http links.
 ```
 
 Each example  shows how the chat tool can answer real-world questions about code and project usage, making it valuable for both technical and non-technical users.
+
+### File Management with Git
+
+This example demonstrates that the agent can create and delete files, with each change automatically committed to git.
+
+```sh
+$ ls
+README.md  chat.py  tools/
+$ git log --oneline
+a1b2c3d (HEAD -> agent) init commit
+$ chat
+chat>> create a file called notes.txt with the contents "buy milk"
+Created notes.txt.
+chat>> actually delete it
+Deleted notes.txt.
+chat>> ^C
+$ git log --oneline
+9f3e21a (HEAD -> agent) delete notes.txt
+3d92f11 create notes.txt
+a1b2c3d init commit
+```
