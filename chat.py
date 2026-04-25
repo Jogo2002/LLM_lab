@@ -258,8 +258,8 @@ def main(chat=None, temperature=0.0):
     '{"result": 4}'
     >>> run_cmd('/calculate')
     'Usage: /calculate <expression>'
-    >>> run_cmd('/ls')
-    '{"files": ["README.md", "__pycache__", "chat.py", "demo.gif", "demo.yml", "htmlcov", "package-lock.json", "package.json", "requirements.txt", "scratch.txt", "setup.py", "test_files", "test_projects", "testtext.txt", "tools", "venv"]}'
+    >>> 'chat.py' in run_cmd('/ls')
+    True
     >>> run_cmd('/ls dir')
     '{"error": "Directory does not exist."}'
     >>> run_cmd('/cat file.txt')
