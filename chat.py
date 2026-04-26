@@ -100,7 +100,7 @@ class Chat:
             pip_install_schema,
         ]
         
-        # this clause stops inadvertent tool calling errors
+        # this clause stops inadvertent/accidental tool calling errors
         try:
             response = self.client.chat.completions.create(
                 model=self.model,

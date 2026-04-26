@@ -12,7 +12,7 @@ def doctests(path):
     """Run doctests on a Python file with verbose output and return the result.
 
     >>> result = doctests('test_files/sample_add.py')
-    >>> 'ok' in result or 'passed' in result
+    >>> result.strip().endswith('Test passed.')
     True
     >>> doctests('/etc/passwd')
     'Error: Absolute paths and directory traversal are not allowed.'
